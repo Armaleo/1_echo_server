@@ -1,16 +1,15 @@
 import socket
-from time import sleep
+
 
 sock = socket.socket()
 sock.setblocking(1)
-sock.connect(('10.38.165.12', 9090))
+sock.connect(('10.0.2.15', 9090))
+while msg!= 'exit':
+	msg = input()
+	sock.send(msg.encode())
 
-#msg = input()
-msg = "Hi!"
-sock.send(msg.encode())
+	data = sock.recv(1024)
 
-data = sock.recv(1024)
+	print(data.decode())
 
 sock.close()
-
-print(data.decode())
