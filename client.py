@@ -1,7 +1,19 @@
 import socket
+import logging
+
+Log_Format = "%(levelname)s %(asctime)s - %(message)s"
+
+logging.basicConfig(filename = "clientlog.log",
+                    filemode = "w",
+                    format = Log_Format, 
+                    level = logging.DEBUG)
+
+logger = logging.getLogger()
 
 sock = socket.socket()
 sock.setblocking(1)
+
+
 
 while True:
 	addrIP = str(input('Input IP address of echo-server\nor press enter to connect to default IP: '))
@@ -32,6 +44,7 @@ while True:
 						except ConnectionRefusedError:	print('There in no server with that address and port')
 						else: break
 					else: print('incorrect diapozone')
+logger.info('connected to server')
 print('Succsessfully connected! Press Enter to continue')
 msg = ''
 a = 0
@@ -39,11 +52,11 @@ while msg!= 'exit':
 	msg = input()
 	print()
 	sock.send(msg.encode())
-	if a != 0:print('Message succsessfully sended!\n')
+	if a != 0:logger.info('Message succsessfully sended')
 	else: a = 1
 	data = sock.recv(1024)
-	print('You recieved a message!\n')
+	logger.info('You recieved a message!')
 	print(data.decode())
 	print()
-print('connection closed')
+logger.info('connection closed')
 sock.close()
